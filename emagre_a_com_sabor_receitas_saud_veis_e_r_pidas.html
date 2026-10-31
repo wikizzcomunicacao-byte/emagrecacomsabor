@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emagreça com Sabor | Receitas Deliciosas e Práticas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                        },
+                        accent: {
+                            50: '#fff7ed',
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Poppins', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, .font-heading { font-family: 'Poppins', sans-serif; }
+        
+        /* Custom scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.25s ease-out; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: all 0.2s ease-in; }
+
+        /* Custom Checkbox */
+        .ingredient-checkbox:checked + span {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md shadow-sm border-b border-emerald-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-brand-500 to-emerald-300 flex items-center justify-center text-white text-xl shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div>
+                        <span class="font-heading text-xl font-bold text-slate-900 tracking-tight">Emagreça <span class="text-brand-600">com Sabor</span></span>
+                        <span class="block text-[10px] font-medium text-slate-400 tracking-wider uppercase">Receitas Fit & Rápidas</span>
+                    </div>
+                </div>
+
+                <!-- Right Menu Buttons -->
+                <div class="flex items-center gap-3">
+                    <button id="btn-favorites-nav" onclick="filterFavorites()" class="relative flex items-center gap-2 px-4 py-2 rounded-full text-slate-700 bg-slate-100 hover:bg-rose-50 hover:text-rose-600 transition-all text-sm font-medium">
+                        <i class="fa-solid fa-heart text-rose-500"></i>
+                        <span class="hidden sm:inline">Favoritos</span>
+                        <span id="fav-count" class="bg-rose-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <a href="#quick-calculator" class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full text-brand-700 bg-brand-50 hover:bg-brand-100 transition-all text-sm font-semibold border border-brand-200">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>Calculadora Express</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative py-12 md:py-20 bg-gradient-to-b from-brand-50/60 via-slate-50 to-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-100 text-brand-800 uppercase tracking-wider mb-4 shadow-sm">
+                    <i class="fa-solid fa-bolt text-amber-500"></i> Prático, Fit & Gostoso
+                </span>
+                <h1 class="font-heading text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+                    Receitas irresistíveis para emagrecer sem passar fome!
+                </h1>
+                <p class="text-slate-600 text-base sm:text-lg mb-8 leading-relaxed">
+                    Aprenda pratos deliciosos e nutritivos com preparação de até <span class="font-semibold text-brand-600">20 minutos</span>. Emagrecer com saúde nunca foi tão fácil e saboroso.
+                </p>
+
+                <!-- MAIN SEARCH BAR -->
+                <div class="relative max-w-2xl mx-auto mb-6 shadow-xl shadow-slate-200/60 rounded-2xl bg-white p-2 border border-slate-100 flex items-center">
+                    <i class="fa-solid fa-magnifying-glass text-slate-400 text-lg ml-4"></i>
+                    <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Busque por ingrediente ou receita (ex: frango, crepioca)..." 
+                        class="w-full pl-3 pr-4 py-3 bg-transparent text-slate-800 placeholder-slate-400 focus:outline-none text-base">
+                    <button onclick="applyFilters()" class="bg-brand-600 hover:bg-brand-700 text-white font-medium px-6 py-3 rounded-xl transition-all flex items-center gap-2 shrink-0 shadow-md shadow-brand-600/30">
+                        <span>Buscar</span>
+                    </button>
+                </div>
+
+                <!-- QUICK FILTER PILLS -->
+                <div class="flex flex-wrap justify-center gap-2 pt-2" id="category-pills">
+                    <!-- Dynamic rendering -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILTER & CONTROLS BAR -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-2 text-slate-700 font-semibold w-full md:w-auto">
+                <i class="fa-solid fa-sliders text-brand-600"></i>
+                <span>Filtros Rápidos:</span>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto flex-1 max-w-3xl">
+                <!-- Tempo Máximo -->
+                <div class="relative">
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Tempo Máximo</label>
+                    <select id="filter-time" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 py-2 px-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="all">Qualquer tempo</option>
+                        <option value="15">Até 15 minutos</option>
+                        <option value="20">Até 20 minutos</option>
+                        <option value="30">Até 30 minutos</option>
+                    </select>
+                </div>
+
+                <!-- Calorias Máximas -->
+                <div class="relative">
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Máx. Calorias</label>
+                    <select id="filter-cals" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 py-2 px-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="all">Qualquer caloria</option>
+                        <option value="250">Até 250 kcal</option>
+                        <option value="350">Até 350 kcal</option>
+                        <option value="450">Até 450 kcal</option>
+                    </select>
+                </div>
+
+                <!-- Dieta / Tag -->
+                <div class="relative">
+                    <label class="block text-xs font-semibold text-slate-500 mb-1">Foco Nutricional</label>
+                    <select id="filter-tag" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-200 text-slate-700 py-2 px-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="all">Todas as dietas</option>
+                        <option value="Proteico">Alta Proteína</option>
+                        <option value="Low Carb">Low Carb</option>
+                        <option value="Sem Glúten">Sem Glúten</option>
+                        <option value="Sem Lactose">Sem Lactose</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Clear button -->
+            <button onclick="resetFilters()" class="text-xs text-slate-500 hover:text-rose-600 underline font-medium self-end md:self-center">
+                Limpar Filtros
+            </button>
+        </div>
+    </section>
+
+    <!-- RECIPES GRID SECTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="font-heading text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                <span>Receitas Selecionadas</span>
+                <span id="recipe-count" class="text-xs font-normal px-2.5 py-1 bg-brand-100 text-brand-800 rounded-full font-sans">0 encontradas</span>
+            </h2>
+        </div>
+
+        <!-- Recipe Grid -->
+        <div id="recipes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <!-- Dynamic Recipe Cards -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-16 bg-white rounded-3xl border border-slate-200/60 my-6">
+            <div class="w-20 h-20 bg-emerald-50 text-brand-500 rounded-full flex items-center justify-center mx-auto text-3xl mb-4">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h3 class="font-heading text-lg font-bold text-slate-800 mb-2">Nenhuma receita encontrada</h3>
+            <p class="text-slate-500 max-w-md mx-auto text-sm mb-6">Tente ajustar seus termos de busca ou filtros para encontrar opções deliciosas.</p>
+            <button onclick="resetFilters()" class="bg-brand-600 text-white font-medium px-5 py-2.5 rounded-xl hover:bg-brand-700 transition-all text-sm">
+                Restaurar Filtros
+            </button>
+        </div>
+    </section>
+
+    <!-- QUICK CALORIE / PORTION CALCULATOR SECTION -->
+    <section id="quick-calculator" class="bg-gradient-to-r from-emerald-900 to-slate-900 text-white py-12 my-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <span class="text-emerald-400 text-xs font-bold tracking-wider uppercase">Ferramenta Rápida</span>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-bold mt-1 mb-3">Calculadora de Refeição Saudável</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Saiba a estimativa recomendada de calorias por refeição com base no seu objetivo de emagrecimento saudável e rotina rápida!
+                    </p>
+                    <div class="flex items-center gap-4 text-xs text-emerald-300">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-400"></i> Sem Dietas Restritivas</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-400"></i> Sabor em 1º lugar</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700/60 backdrop-blur-sm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-300 mb-1">Seu Objetivo Principal</label>
+                            <select id="calc-goal" class="w-full bg-slate-700 text-white border border-slate-600 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-emerald-400">
+                                <option value="perda_suave">Emagrecimento Gradual</option>
+                                <option value="perda_acelerada">Emagrecimento Rápido Fit</option>
+                                <option value="manutencao">Manter Peso com Saúde</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-300 mb-1">Refeição Desejada</label>
+                            <select id="calc-meal" class="w-full bg-slate-700 text-white border border-slate-600 rounded-xl py-2 px-3 text-sm focus:outline-none focus:border-emerald-400">
+                                <option value="cafe">Café da Manhã</option>
+                                <option value="almoço">Almoço / Jantar</option>
+                                <option value="lanche">Lanche da Tarde</option>
+                                <option value="doce">Sobremesa Fit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="calculateIdealMeal()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-2.5 rounded-xl transition-all text-sm mb-4">
+                        Calcular Meta Sugerida
+                    </button>
+                    <div id="calc-result" class="hidden bg-slate-900/90 p-4 rounded-xl border border-emerald-500/30 text-center">
+                        <span class="text-xs text-slate-400">Calorias recomendadas para esta refeição:</span>
+                        <p id="calc-kcal" class="text-2xl font-bold text-emerald-400 my-1">320 - 380 kcal</p>
+                        <p id="calc-tip" class="text-xs text-slate-300 italic">Dica: Escolha receitas com selo "Proteico" para aumentar sua saciedade!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-brand-500 flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <span class="font-heading font-bold text-slate-800">Emagreça com Sabor</span>
+                </div>
+                <p class="text-xs text-slate-500">
+                    &copy; 2026 Emagreça com Sabor. Receitas rápidas, nutritivas e balanceadas para o seu dia a dia.
+                </p>
+                <div class="flex gap-4 text-slate-400 text-base">
+                    <a href="#" class="hover:text-brand-600 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-brand-600 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="hover:text-brand-600 transition-colors"><i class="fa-brands fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- RECIPE DETAIL MODAL -->
+    <div id="recipe-modal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+        <div id="modal-content" class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden relative max-h-[90vh] flex flex-col my-auto transition-all">
+            
+            <!-- Modal Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-20 bg-white/80 hover:bg-white text-slate-700 w-10 h-10 rounded-full flex items-center justify-center shadow-md backdrop-blur-sm transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Modal Header Image & Overlay -->
+            <div class="relative h-64 sm:h-80 shrink-0">
+                <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+                
+                <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <div class="flex flex-wrap gap-2 mb-2" id="modal-tags">
+                        <!-- Dynamic Tags -->
+                    </div>
+                    <h2 id="modal-title" class="font-heading text-2xl sm:text-3xl font-bold leading-tight drop-shadow-sm">Title</h2>
+                </div>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-5 sm:p-8 overflow-y-auto space-y-6">
+                
+                <!-- Quick Info Cards -->
+                <div class="grid grid-cols-4 gap-2 sm:gap-4 bg-slate-50 p-3 sm:p-4 rounded-2xl border border-slate-100 text-center">
+                    <div>
+                        <span class="block text-[11px] text-slate-400 font-medium uppercase">Tempo</span>
+                        <span id="modal-time" class="font-bold text-slate-800 text-sm sm:text-base">15 min</span>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-slate-400 font-medium uppercase">Calorias</span>
+                        <span id="modal-calories" class="font-bold text-brand-600 text-sm sm:text-base">280 kcal</span>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-slate-400 font-medium uppercase">Dificuldade</span>
+                        <span id="modal-difficulty" class="font-bold text-slate-800 text-sm sm:text-base">Fácil</span>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] text-slate-400 font-medium uppercase">Categoria</span>
+                        <span id="modal-category" class="font-bold text-slate-800 text-sm sm:text-base">Lanche</span>
+                    </div>
+                </div>
+
+                <!-- Macros Breakdown -->
+                <div>
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Informação Nutricional por Porção</h4>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-emerald-50/70 border border-emerald-100 p-2.5 rounded-xl text-center">
+                            <span class="block text-xs text-emerald-700 font-medium">Proteínas</span>
+                            <span id="modal-protein" class="font-bold text-emerald-800 text-lg">24g</span>
+                        </div>
+                        <div class="bg-amber-50/70 border border-amber-100 p-2.5 rounded-xl text-center">
+                            <span class="block text-xs text-amber-700 font-medium">Carboidratos</span>
+                            <span id="modal-carbs" class="font-bold text-amber-800 text-lg">18g</span>
+                        </div>
+                        <div class="bg-rose-50/70 border border-rose-100 p-2.5 rounded-xl text-center">
+                            <span class="block text-xs text-rose-700 font-medium">Gorduras</span>
+                            <span id="modal-fat" class="font-bold text-rose-800 text-lg">8g</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portion Scaling Controller -->
+                <div class="bg-brand-50 border border-brand-100 p-4 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="font-semibold text-slate-800 text-sm block">Ajustar Porções:</span>
+                        <span class="text-xs text-slate-500">As quantidades dos ingredientes mudam automaticamente.</span>
+                    </div>
+                    <div class="flex items-center gap-1 bg-white p-1 rounded-xl shadow-sm border border-slate-200">
+                        <button onclick="changePortion(1)" id="btn-portion-1" class="portion-btn active px-3 py-1 rounded-lg text-xs font-bold transition-all bg-brand-600 text-white">1x</button>
+                        <button onclick="changePortion(2)" id="btn-portion-2" class="portion-btn px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 hover:bg-slate-100">2x</button>
+                        <button onclick="changePortion(4)" id="btn-portion-4" class="portion-btn px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 hover:bg-slate-100">4x</button>
+                    </div>
+                </div>
+
+                <!-- Ingredients Checklist -->
+                <div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-brand-600"></i> Ingredientes
+                    </h3>
+                    <ul id="modal-ingredients" class="space-y-2">
+                        <!-- Dynamic list with checkable items -->
+                    </ul>
+                </div>
+
+                <!-- Preparation Steps -->
+                <div>
+                    <h3 class="font-heading text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-accent-500"></i> Modo de Preparo
+                    </h3>
+                    <ol id="modal-steps" class="space-y-3">
+                        <!-- Dynamic steps -->
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Modal Footer Action -->
+            <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-between items-center shrink-0">
+                <button id="modal-fav-btn" class="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-rose-600 transition-colors">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span>Favoritar Receita</span>
+                </button>
+                <button onclick="closeModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-xl text-sm font-semibold transition-all">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // RECIPE DATABASE DATA
+        const recipes = [
+            {
+                id: 1,
+                title: "Crepioca Recheada de Frango Temperado",
+                category: "Cafés",
+                time: 12,
+                calories: 290,
+                difficulty: "Muito Fácil",
+                tags: ["Proteico", "Sem Glúten", "Rápida"],
+                image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+                protein: 28,
+                carbs: 16,
+                fat: 7,
+                ingredients: [
+                    { amount: 1, unit: "ovo inteiro", name: "Ovo" },
+                    { amount: 2, unit: "colheres de sopa", name: "Goma de Tapioca" },
+                    { amount: 80, unit: "g", name: "Peito de Frango desfiado e temperado" },
+                    { amount: 1, unit: "colher de sopa", name: "Requeijão Light ou Creme de Ricota" },
+                    { amount: 1, unit: "pitada", name: "Sal e orégano a gosto" }
+                ],
+                steps: [
+                    "Em uma tigela pequena, bata bem o ovo com a goma de tapioca e uma pitada de sal até ficar homogêneo.",
+                    "Aqueça uma frigideira antiaderente em fogo baixo (se necessário, unte levemente com um fio de azeite).",
+                    "Despeje a mistura da crepioca e deixe dourar por cerca de 2 minutos até soltar o fundo.",
+                    "Vire a massa, adicione o frango desfiado com o requeijão light de um dos lados.",
+                    "Dobre ao meio, aguarde mais 30 segundos e sirva quentinho!"
+                ]
+            },
+            {
+                id: 2,
+                title: "Strogonoff Fit de Frango sem Creme de Leite",
+                category: "Almoço/Jantar",
+                time: 20,
+                calories: 360,
+                difficulty: "Fácil",
+                tags: ["Proteico", "Low Carb", "Sem Glúten"],
+                image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=800&q=80",
+                protein: 38,
+                carbs: 12,
+                fat: 9,
+                ingredients: [
+                    { amount: 150, unit: "g", name: "Peito de Frango cortado em cubos" },
+                    { amount: 3, unit: "colheres de sopa", name: "Iogurte Natural Desnatado" },
+                    { amount: 1, unit: "colher de sopa", name: "Extrato de Tomate 100% puro" },
+                    { amount: 1, unit: "colher de chá", name: "Mostarda Amarela ou Dijón" },
+                    { amount: 50, unit: "g", name: "Cogumelos fatiados (opcional)" },
+                    { amount: 0.5, unit: "unidade", name: "Cebola pequena picada" }
+                ],
+                steps: [
+                    "Em uma panela antiderente, doure a cebola e em seguida sele os cubos de frango até ficarem bem douradinhos.",
+                    "Acrescente os cogumelos e refogue por mais 2 minutos.",
+                    "Adicione o extrato de tomate e a mostarda, misturando bem em fogo baixo.",
+                    "Desligue o fogo e misture delicadamente o iogurte natural para não talhar.",
+                    "Ajuste o sal e pimenta-do-reino e sirva acompanhado de arroz integral ou salada verde."
+                ]
+            },
+            {
+                id: 3,
+                title: "Mousse Fit de Maracujá com Iogurte",
+                category: "Sobremesas",
+                time: 10,
+                calories: 160,
+                difficulty: "Muito Fácil",
+                tags: ["Low Carb", "Sem Glúten", "Rápida"],
+                image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80",
+                protein: 14,
+                carbs: 18,
+                fat: 2,
+                ingredients: [
+                    { amount: 1, unit: "pote (170g)", name: "Iogurte Grego Zero Gordura / Desnatado" },
+                    { amount: 3, unit: "colheres de sopa", name: "Polpa de Maracujá natural (sem açúcar)" },
+                    { amount: 2, unit: "colheres de sopa", name: "Leite em pó desnatado" },
+                    { amount: 1, unit: "colher de chá", name: "Adoçante natural (Xilitol ou Stevia)" }
+                ],
+                steps: [
+                    "No liquidificador ou mixer, adicione o iogurte grego, 2 colheres da polpa de maracujá, o leite em pó e o adoçante.",
+                    "Bata por cerca de 2 minutos até obter uma textura bem cremosa e aerada.",
+                    "Despeje em um ramequim ou taça individual.",
+                    "Decore com o restante da polpa de maracujá por cima.",
+                    "Leve à geladeira por 15 minutos para gelar antes de saborear."
+                ]
+            },
+            {
+                id: 4,
+                title: "Omelete de Forno Prático de Legumes",
+                category: "Lanches",
+                time: 18,
+                calories: 220,
+                difficulty: "Fácil",
+                tags: ["Proteico", "Low Carb", "Sem Glúten"],
+                image: "https://images.unsplash.com/photo-1510693206972-df098062cb71?auto=format&fit=crop&w=800&q=80",
+                protein: 18,
+                carbs: 6,
+                fat: 12,
+                ingredients: [
+                    { amount: 2, unit: "unidades", name: "Ovos inteiros" },
+                    { amount: 0.5, unit: "xícara", name: "Brócolis picadinho" },
+                    { amount: 3, unit: "unidades", name: "Tomates cereja cortados ao meio" },
+                    { amount: 30, unit: "g", name: "Queijo Branco/Mina Frescal em cubos" },
+                    { amount: 1, unit: "pitada", name: "Fermento em pó e ervas finas" }
+                ],
+                steps: [
+                    "Bata os ovos com o fermento, sal e pimenta em um recipiente até espumar.",
+                    "Misture o brócolis, os tomates cereja e os cubinhos de queijo fresco.",
+                    "Despeje em forminhas de silicone ou travessa pequena untada.",
+                    "Leve à airfryer a 180°C por 10-12 minutos ou forno pré-aquecido por 15 minutos.",
+                    "Retire quando estiver dourado por cima e firme no centro!"
+                ]
+            },
+            {
+                id: 5,
+                title: "Crepe Doce de Aveia com Morango",
+                category: "Sobremesas",
+                time: 12,
+                calories: 240,
+                difficulty: "Fácil",
+                tags: ["Sem Lactose", "Rápida"],
+                image: "https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=800&q=80",
+                protein: 12,
+                carbs: 32,
+                fat: 5,
+                ingredients: [
+                    { amount: 1, unit: "unidade", name: "Ovo" },
+                    { amount: 2, unit: "colheres de sopa", name: "Farinha ou Farelo de Aveia" },
+                    { amount: 2, unit: "colheres de sopa", name: "Água ou Leite Vegetal" },
+                    { amount: 4, unit: "unidades", name: "Morangos frescos fatiados" },
+                    { amount: 1, unit: "colher de chá", name: "Mel ou Calda Zero" }
+                ],
+                steps: [
+                    "Misture o ovo, a aveia e o leite vegetal com um garfo até formar uma massa fluida.",
+                    "Aqueça uma frigideira antiaderente levemente untada em fogo baixo.",
+                    "Espalhe bem a massa criando uma camada fina e deixe dourar dos dois lados.",
+                    "Recheie com os morangos fatiados e finalize com o mel ou calda zero.",
+                    "Dobre em quatro partes e sirva imediatamente."
+                ]
+            },
+            {
+                id: 6,
+                title: "Wrap Low Carb de Atum e Salada",
+                category: "Lanches",
+                time: 10,
+                calories: 270,
+                difficulty: "Muito Fácil",
+                tags: ["Proteico", "Low Carb", "Rápida"],
+                image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80",
+                protein: 26,
+                carbs: 14,
+                fat: 8,
+                ingredients: [
+                    { amount: 1, unit: "folha grande", name: "Couve folha ou Folha de Tortilla Integral" },
+                    { amount: 0.5, unit: "lata", name: "Atum ralado em água (escorrido)" },
+                    { amount: 1, unit: "colher de sopa", name: "Creme de Queijo Light ou Maionese de Abacate" },
+                    { amount: 0.25, unit: "unidade", name: "Cenoura ralada" },
+                    { amount: 2, unit: "rodelas", name: "Tomate" }
+                ],
+                steps: [
+                    "Em uma tigela, misture o atum com o creme de queijo light, cenoura e temperos a gosto.",
+                    "Higienize a folha de couve (remova a parte mais dura do talo central se preferir).",
+                    "Disponha as rodelas de tomate e a mistura de atum no centro da folha.",
+                    "Enrole firmemente como um burrito e corte ao meio na diagonal.",
+                    "Refeição leve, proteica e super refrescante pronta em 5 minutos!"
+                ]
+            }
+        ];
+
+        // CATEGORIES
+        const categories = ["Todas", "Rápidas", "Cafés", "Almoço/Jantar", "Lanches", "Sobremesas"];
+
+        // STATE VARIABLES
+        let activeCategory = "Todas";
+        let favorites = JSON.parse(localStorage.getItem('fav_recipes') || '[]');
+        let currentModalRecipe = null;
+        let currentPortion = 1;
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            applyFilters();
+            updateFavCount();
+        });
+
+        // RENDER CATEGORY PILLS
+        function renderCategories() {
+            const container = document.getElementById('category-pills');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="selectCategory('${cat}')" 
+                    class="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                        activeCategory === cat 
+                        ? 'bg-brand-600 text-white shadow-md shadow-brand-600/30 scale-105' 
+                        : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/80'
+                    }">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(cat) {
+            activeCategory = cat;
+            renderCategories();
+            applyFilters();
+        }
+
+        // FILTER & SEARCH LOGIC
+        function applyFilters() {
+            const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+            const maxTime = document.getElementById('filter-time').value;
+            const maxCals = document.getElementById('filter-cals').value;
+            const selectedTag = document.getElementById('filter-tag').value;
+
+            const filtered = recipes.filter(recipe => {
+                // Category Filter
+                if (activeCategory === "Rápidas" && recipe.time > 15) return false;
+                if (activeCategory !== "Todas" && activeCategory !== "Rápidas" && recipe.category !== activeCategory) return false;
+
+                // Search Input
+                if (searchVal) {
+                    const matchTitle = recipe.title.toLowerCase().includes(searchVal);
+                    const matchIngr = recipe.ingredients.some(ing => ing.name.toLowerCase().includes(searchVal));
+                    if (!matchTitle && !matchIngr) return false;
+                }
+
+                // Max Prep Time
+                if (maxTime !== "all" && recipe.time > parseInt(maxTime)) return false;
+
+                // Max Calories
+                if (maxCals !== "all" && recipe.calories > parseInt(maxCals)) return false;
+
+                // Nutritional Tag
+                if (selectedTag !== "all" && !recipe.tags.includes(selectedTag)) return false;
+
+                return true;
+            });
+
+            renderRecipesGrid(filtered);
+        }
+
+        function handleSearch() {
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-time').value = 'all';
+            document.getElementById('filter-cals').value = 'all';
+            document.getElementById('filter-tag').value = 'all';
+            activeCategory = "Todas";
+            renderCategories();
+            applyFilters();
+        }
+
+        function filterFavorites() {
+            resetFilters();
+            const favRecipes = recipes.filter(r => favorites.includes(r.id));
+            renderRecipesGrid(favRecipes);
+            document.getElementById('recipe-count').innerText = `${favRecipes.length} favoritos`;
+        }
+
+        // RENDER GRID
+        function renderRecipesGrid(recipeList) {
+            const grid = document.getElementById('recipes-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countBadge = document.getElementById('recipe-count');
+
+            countBadge.innerText = `${recipeList.length} receitas`;
+
+            if (recipeList.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = recipeList.map(recipe => {
+                const isFav = favorites.includes(recipe.id);
+                return `
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col group">
+                    <!-- Card Image Header -->
+                    <div class="relative h-48 overflow-hidden cursor-pointer" onclick="openModal(${recipe.id})">
+                        <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-60"></div>
+                        
+                        <!-- Prep Time Badge -->
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-slate-800 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+                            <i class="fa-regular fa-clock text-brand-600"></i> ${recipe.time} min
+                        </span>
+
+                        <!-- Favorite Button -->
+                        <button onclick="event.stopPropagation(); toggleFavorite(${recipe.id})" 
+                            class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-rose-500 transition-all shadow-sm">
+                            <i class="${isFav ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart text-base"></i>
+                        </button>
+
+                        <!-- Calories Tag -->
+                        <span class="absolute bottom-3 right-3 bg-brand-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
+                            ${recipe.calories} kcal
+                        </span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-1.5 mb-2.5">
+                                ${recipe.tags.map(tag => `
+                                    <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
+                                        ${tag}
+                                    </span>
+                                me`).join('')}
+                            </div>
+
+                            <h3 onclick="openModal(${recipe.id})" class="font-heading font-bold text-slate-800 text-lg leading-snug hover:text-brand-600 transition-colors cursor-pointer mb-2">
+                                ${recipe.title}
+                            </h3>
+                        </div>
+
+                        <!-- Card Footer Info -->
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-4">
+                            <span class="flex items-center gap-1">
+                                <i class="fa-solid fa-chart-line text-brand-500"></i> ${recipe.protein}g proteína
+                            </span>
+                            <button onclick="openModal(${recipe.id})" class="text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                                Ver Receita <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // FAVORITES SYSTEM
+        function toggleFavorite(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(favId => favId !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('fav_recipes', JSON.stringify(favorites));
+            updateFavCount();
+            applyFilters();
+
+            // Update modal button if open
+            if (currentModalRecipe && currentModalRecipe.id === id) {
+                updateModalFavBtn();
+            }
+        }
+
+        function updateFavCount() {
+            document.getElementById('fav-count').innerText = favorites.length;
+        }
+
+        // MODAL DISPLAY LOGIC
+        function openModal(id) {
+            currentModalRecipe = recipes.find(r => r.id === id);
+            if (!currentModalRecipe) return;
+
+            currentPortion = 1;
+
+            document.getElementById('modal-img').src = currentModalRecipe.image;
+            document.getElementById('modal-title').innerText = currentModalRecipe.title;
+            document.getElementById('modal-time').innerText = `${currentModalRecipe.time} min`;
+            document.getElementById('modal-calories').innerText = `${currentModalRecipe.calories} kcal`;
+            document.getElementById('modal-difficulty').innerText = currentModalRecipe.difficulty;
+            document.getElementById('modal-category').innerText = currentModalRecipe.category;
+
+            document.getElementById('modal-protein').innerText = `${currentModalRecipe.protein}g`;
+            document.getElementById('modal-carbs').innerText = `${currentModalRecipe.carbs}g`;
+            document.getElementById('modal-fat').innerText = `${currentModalRecipe.fat}g`;
+
+            // Tags
+            document.getElementById('modal-tags').innerHTML = currentModalRecipe.tags.map(t => 
+                `<span class="bg-brand-500/90 text-white text-[11px] font-semibold px-2.5 py-0.5 rounded-full backdrop-blur-sm">${t}</span>`
+            ).join('');
+
+            // Steps
+            document.getElementById('modal-steps').innerHTML = currentModalRecipe.steps.map((step, idx) => `
+                <li class="flex gap-3 text-sm text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <span class="w-6 h-6 rounded-full bg-brand-100 text-brand-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                        ${idx + 1}
+                    </span>
+                    <span class="leading-relaxed">${step}</span>
+                </li>
+            `).join('');
+
+            updateModalFavBtn();
+            updatePortionsUI();
+
+            // Show Modal
+            const modal = document.getElementById('recipe-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('recipe-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // PORTION SCALER LOGIC
+        function changePortion(factor) {
+            currentPortion = factor;
+            updatePortionsUI();
+        }
+
+        function updatePortionsUI() {
+            if (!currentModalRecipe) return;
+
+            // Update Active Buttons
+            [1, 2, 4].forEach(f => {
+                const btn = document.getElementById(`btn-portion-${f}`);
+                if (f === currentPortion) {
+                    btn.className = "portion-btn px-3 py-1 rounded-lg text-xs font-bold transition-all bg-brand-600 text-white shadow-sm";
+                } else {
+                    btn.className = "portion-btn px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-600 hover:bg-slate-100";
+                }
+            });
+
+            // Update Ingredients Quantities
+            const ingredientsContainer = document.getElementById('modal-ingredients');
+            ingredientsContainer.innerHTML = currentModalRecipe.ingredients.map((ing, idx) => {
+                const scaledAmount = (ing.amount * currentPortion).toFixed(ing.amount % 1 === 0 ? 0 : 1);
+                return `
+                <li class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
+                    <input type="checkbox" id="ing-${idx}" class="ingredient-checkbox w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500">
+                    <label for="ing-${idx}" class="text-sm text-slate-700 cursor-pointer flex-1">
+                        <span class="font-bold text-slate-900">${scaledAmount} ${ing.unit}</span> — <span>${ing.name}</span>
+                    </label>
+                </li>
+            `}).join('');
+        }
+
+        function updateModalFavBtn() {
+            const btn = document.getElementById('modal-fav-btn');
+            const isFav = favorites.includes(currentModalRecipe.id);
+            btn.innerHTML = `
+                <i class="${isFav ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart text-lg"></i>
+                <span class="${isFav ? 'text-rose-600 font-bold' : ''}">${isFav ? 'Favoritado' : 'Favoritar Receita'}</span>
+            `;
+            btn.onclick = () => toggleFavorite(currentModalRecipe.id);
+        }
+
+        // QUICK CALORIE CALCULATOR
+        function calculateIdealMeal() {
+            const goal = document.getElementById('calc-goal').value;
+            const meal = document.getElementById('calc-meal').value;
+            const resultBox = document.getElementById('calc-result');
+            const kcalText = document.getElementById('calc-kcal');
+            const tipText = document.getElementById('calc-tip');
+
+            let range = "";
+            let tip = "";
+
+            if (meal === "cafe") {
+                range = goal === "perda_acelerada" ? "200 - 280 kcal" : "280 - 350 kcal";
+                tip = "Dica: Combine proteínas (ovos) com fibras (aveia) para evitar picos de fome de manhã.";
+            } else if (meal === "almoço") {
+                range = goal === "perda_acelerada" ? "350 - 420 kcal" : "420 - 500 kcal";
+                tip = "Dica: Preencha metade do prato com vegetais e saladas para aumentar o volume com pouca caloria.";
+            } else if (meal === "lanche") {
+                range = goal === "perda_acelerada" ? "150 - 220 kcal" : "220 - 280 kcal";
+                tip = "Dica: Wraps de vegetais e crepes práticos são perfeitos para o meio da tarde.";
+            } else {
+                range = goal === "perda_acelerada" ? "120 - 180 kcal" : "180 - 240 kcal";
+                tip = "Dica: Sobremesas fit à base de iogurte natural acalmam o desejo de doces de forma nutritiva.";
+            }
+
+            kcalText.innerText = range;
+            tipText.innerText = tip;
+            resultBox.classList.remove('hidden');
+        }
+
+        // Close Modal when clicking background overlay
+        document.getElementById('recipe-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'recipe-modal') closeModal();
+        });
+    </script>
+</body>
+</html>
