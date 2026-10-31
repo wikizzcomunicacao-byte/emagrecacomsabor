@@ -277,12 +277,12 @@
 
             <!-- Toggle Mensal / Anual -->
             <div class="flex items-center justify-center gap-4 mt-8">
-                <span id="label-monthly" class="text-sm font-bold text-slate-800">Plano Mensal</span>
+                <span id="label-monthly" class="text-sm font-bold text-slate-500">Plano Mensal</span>
                 <button onclick="toggleBillingPeriod()" id="billing-toggle" class="w-14 h-8 bg-brand-600 rounded-full p-1 relative transition-colors focus:outline-none">
                     <div id="toggle-circle" class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform translate-x-6"></div>
                 </button>
                 <div class="flex items-center gap-1.5">
-                    <span id="label-yearly" class="text-sm font-bold text-slate-500">Plano Anual</span>
+                    <span id="label-yearly" class="text-sm font-bold text-slate-800">Plano Anual</span>
                     <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wide">Economize 40%</span>
                 </div>
             </div>
@@ -335,51 +335,51 @@
                 </a>
             </div>
 
-            <!-- PLANO ANUAL (DESTACADO) -->
-            <div class="bg-gradient-to-b from-brand-900 via-slate-900 to-slate-900 text-white rounded-3xl p-8 border-2 border-brand-500 shadow-xl relative flex flex-col justify-between">
+            <!-- PLANO ANUAL (RECOMENDADO - CORRIGIDO O CONTRASTE) -->
+            <div class="bg-white rounded-3xl p-8 border-2 border-emerald-500 shadow-xl relative flex flex-col justify-between">
                 <span class="absolute -top-3.5 right-6 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow-md">
-                    Mais Popular & Recomendado
+                    MAIS POPULAR & RECOMENDADO
                 </span>
 
                 <div>
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-heading text-xl font-bold text-white flex items-center gap-2">
-                            Plano Anual + Especialista <i class="fa-solid fa-crown text-amber-400 text-base"></i>
+                    <div class="flex justify-between items-center mb-4 mt-1">
+                        <h3 class="font-heading text-xl font-bold text-slate-900 flex items-center gap-2">
+                            Plano Anual + Especialista <i class="fa-solid fa-crown text-amber-500 text-base"></i>
                         </h3>
                     </div>
-                    <p class="text-xs text-slate-300 mb-6">Acompanhamento completo com nutricionista dedicada para metas aceleradas.</p>
+                    <p class="text-xs text-slate-600 mb-6">Acompanhamento completo com nutricionista dedicada para metas aceleradas.</p>
                     
                     <div class="mb-6">
                         <div class="flex items-baseline gap-1">
-                            <span class="text-emerald-400 text-sm">R$</span>
-                            <span id="price-yearly-val" class="text-4xl font-extrabold text-white">23,90</span>
-                            <span class="text-slate-300 text-xs font-medium">/mês*</span>
+                            <span class="text-brand-600 text-sm font-bold">R$</span>
+                            <span id="price-yearly-val" class="text-4xl font-extrabold text-slate-900">23,90</span>
+                            <span class="text-slate-600 text-xs font-semibold">/mês*</span>
                         </div>
-                        <span id="price-yearly-sub" class="text-[11px] text-emerald-300 font-medium">Faturado R$ 286,80 por ano (Economize R$ 192)</span>
+                        <span id="price-yearly-sub" class="text-[11px] text-emerald-700 font-bold">Faturado R$ 286,80 por ano (Economize R$ 192)</span>
                     </div>
 
-                    <ul class="space-y-3.5 mb-8 text-xs text-slate-200">
+                    <ul class="space-y-3.5 mb-8 text-xs text-slate-800 font-medium">
                         <li class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-emerald-400 bg-emerald-950/60 rounded-full p-1 text-[10px]"></i>
-                            <span class="font-medium text-white">Contato direto no WhatsApp (16) 99127-0132 com Especialista</span>
+                            <i class="fa-solid fa-check text-white bg-emerald-600 rounded-full p-1 text-[10px] shrink-0"></i>
+                            <span class="font-semibold text-slate-900">Contato direto no WhatsApp (16) 99127-0132 com Especialista</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-emerald-400 bg-emerald-950/60 rounded-full p-1 text-[10px]"></i>
+                            <i class="fa-solid fa-check text-white bg-emerald-600 rounded-full p-1 text-[10px] shrink-0"></i>
                             <span>Ajuste personalizado das receitas ao seu gosto e rotina</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-emerald-400 bg-emerald-950/60 rounded-full p-1 text-[10px]"></i>
+                            <i class="fa-solid fa-check text-white bg-emerald-600 rounded-full p-1 text-[10px] shrink-0"></i>
                             <span>Cardápios detox e de substituição rápida de emergência</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-check text-emerald-400 bg-emerald-950/60 rounded-full p-1 text-[10px]"></i>
+                            <i class="fa-solid fa-check text-white bg-emerald-600 rounded-full p-1 text-[10px] shrink-0"></i>
                             <span>Acesso total ilimitado a todas as receitas e atualizações</span>
                         </li>
                     </ul>
                 </div>
 
                 <a href="https://wa.me/5516991270132?text=Ol%C3%A1!%20Quero%20assinar%20o%20Plano%20Anual%20%2B%20Especialista%20do%20Emagre%C3%A7a%20com%20Sabor." target="_blank" 
-                   class="w-full text-center bg-gradient-to-r from-brand-500 to-emerald-400 hover:from-brand-600 hover:to-emerald-500 text-slate-950 font-bold py-3.5 rounded-2xl text-sm transition-all shadow-lg shadow-brand-500/20">
+                   class="w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-2xl text-sm transition-all shadow-lg shadow-brand-600/30">
                     Garantir Desconto & Falar com Especialista
                 </a>
             </div>
@@ -855,7 +855,7 @@
                                     <span class="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
                                         ${tag}
                                     </span>
-                                me`).join('')}
+                                `).join('')}
                             </div>
 
                             <h3 onclick="openModal(${recipe.id})" class="font-heading font-bold text-slate-800 text-lg leading-snug hover:text-brand-600 transition-colors cursor-pointer mb-2">
